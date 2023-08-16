@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Square from './components/Square';
 import { WinnerModal } from './components/WinnerModal';
 import { TURNS } from './constants';
-import { checkWinnerFrom } from './logic/board';
+import { checkWinnerFrom, checkEndGame } from './logic/board';
 import confetti from 'canvas-confetti';
 
 function App() {
@@ -14,11 +14,6 @@ function App() {
     setBoard(Array(9).fill(null));
     setTurn(TURNS.X);
     setWinner(null); //Null not winner, false draw
-  };
-
-  const checkEndGame = (newBoard) => {
-    //  Check no more emty spaces
-    return newBoard.every((square) => square !== null); //true if no more spaces
   };
 
   const updateBoard = (index) => {

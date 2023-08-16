@@ -14,3 +14,8 @@ export const checkWinnerFrom = (boardToCheck) => {
   }
   return null;
 };
+
+export const checkEndGame = (newBoard) => {
+  //  Check no more emty spaces
+  return newBoard.every((square) => square !== null); //true if no more spaces
+};
