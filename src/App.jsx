@@ -59,6 +59,11 @@ function App() {
     setWinner(null); //Null not winner, false draw
   };
 
+  const checkEndGame = (newBoard) => {
+    //  Check no more emty spaces
+    return newBoard.every((square) => square !== null); //true if no more spaces
+  };
+
   const updateBoard = (index) => {
     //  console.log(winner);
     if (board[index] || winner) return;
@@ -73,6 +78,8 @@ function App() {
     const newWinner = checkWinner(newBoard);
     if (newWinner) {
       setWinner(newWinner);
+    } else if (checkEndGame(newBoard)) {
+      setWinner(false); //  DRAW
     }
   };
 
