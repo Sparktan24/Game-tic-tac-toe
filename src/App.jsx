@@ -3,17 +3,30 @@ import Square from './components/Square';
 import { WinnerModal } from './components/WinnerModal';
 import { TURNS } from './constants';
 import { checkWinnerFrom, checkEndGame } from './logic/board';
+import { resetGameStorage, saveGameStorage } from './logic/storage/store';
 import confetti from 'canvas-confetti';
 
 function App() {
-  const [board, setBoard] = useState(Array(9).fill(null));
-  const [turn, setTurn] = useState(TURNS.X);
+  const [board, setBoard] = useState(() => {
+    const boardFromStorage = window.localStorage.getItem('board');
+    return boardFromStorage
+      ? JSON.parse(boardFromStorage)
+      : Array(9).fill(null);
+  });
+
+  const [turn, setTurn] = useState(() => {
+    const turnFromStorage = window.localStorage.getItem('turn');
+    return turnFromStorage ?? TURNS.X;
+  });
+
   const [winner, setWinner] = useState(null); //Null not winner, false draw
 
   const resetGame = () => {
     setBoard(Array(9).fill(null));
     setTurn(TURNS.X);
     setWinner(null); //Null not winner, false draw
+
+    resetGameStorage();
   };
 
   const updateBoard = (index) => {
@@ -26,6 +39,10 @@ function App() {
     //  CHANGE TURN
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
     setTurn(newTurn);
+    //  SAVE GAME
+    saveGameStorage({ newBoard, newTurn });
+    //window.localStorage.setItem('board', JSON.stringify(newBoard));
+    //window.localStorage.setItem('turn', newTurn);
     //  CHECK FOR A WINNER
     const newWinner = checkWinnerFrom(newBoard);
     if (newWinner) {
