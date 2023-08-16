@@ -53,6 +53,12 @@ function App() {
     return null;
   };
 
+  const resetGame = () => {
+    setBoard(Array(9).fill(null));
+    setTurn(TURNS.X);
+    setWinner(null); //Null not winner, false draw
+  };
+
   const updateBoard = (index) => {
     //  console.log(winner);
     if (board[index] || winner) return;
@@ -73,6 +79,7 @@ function App() {
   return (
     <main className="board">
       <h1>Tic tac toe</h1>
+      <button onClick={resetGame}>Reset</button>
       <section className="game">
         {board.map((_, index) => {
           return (
@@ -98,7 +105,7 @@ function App() {
             </header>
 
             <footer>
-              <button>Restart</button>
+              <button onClick={resetGame}>Restart</button>
             </footer>
           </div>
         </section>
